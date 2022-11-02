@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <script src="/static/jquery-3.6.0.min.js"></script>
+    <script src="/static/bootstrap-4.6.1/js/bootstrap.bundle.js"></script>
+    <script src="/static/socket.io.min.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap-4.6.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/index.css">
+
+
+</head>
+<body>
+<!-- TUM EKRANI KAPLAYAN DIV BASLANGICI, BU DIV FULLSCREEN OLARAK ÇALIŞMASI İÇİN GEREKLİ CSS AYARLARI YAPILMIŞTIR, ELEMANLAR İÇİNE YERLEŞTİRİLMİŞTİR -->
+<div class="container-fluid main-wrapper">
+
+
+
+
+<!-- ÇAĞIRMA EKRANI, GİZLİ OLARAK BAŞLATILMIŞTIR, ÇAĞIR KOMUTU GELİRSE BELLİ SÜRE GÖSTERİLİR VE TEKRAR GİZLİ HALE GETİRİLİR -->
+<div class="modal fade" id="myModal" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body d-flex align-items-center justify-content-center bg-danger text-white">
+          <p class="h1 font-weight-bold text-center fw-bolder" id="cagir"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- YENİDEN BAĞLANMAYA ÇALIŞIYOR ANİMASYONU, GİZLİ OLARAK TANIMLANMIŞTIR, BAĞLANTI KOPTUĞUNDA GÖRÜNÜR HALE GETİRİLİR, BAĞLANTI SAĞLANDIĞINDA TEKRAR GİZLİ HALE GETİRİLİR -->
+<div class="vw-100 vh-100 position-absolute d-flex align-items-center justify-content-center d-none">
+
+               <div id="reconnecting" class="sk-chase d-none  align-items-center">
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+              </div>
+
+</div>
+
+
+
+    <!--EKRANDA GÖRÜNÜR SATIRLARIMIZIN BAŞLADIĞI YER -->
+
+    <!--BAŞLIK KISMI-->
+    <div class="row" id="row_header">
+    <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+        <img src= "/static/logo.png" />
+    </div>
+    <div class="col-sm-8 h-100 border overflow-hidden d-flex flex-column align-items-center justify-content-center p-0">
+        <div class="h-100 w-100 border d-flex overflow-hidden align-items-center justify-content-center">
+      <p class="h1 font-weight-bold text-center" id="bilgi1"></p>
+            </div>
+                <div class="h-100 w-100 border d-flex overflow-hidden align-items-center justify-content-center">
+      <span class="h1 font-weight-bold text-center" id="bilgi2" style="white-space: pre-line"></span>
+            </div>
+    </div>
+    <div class="col-sm-2 h-100 border d-flex overflow-hidden d-flex flex-column align-items-center justify-content-center p-0">
+                <div class="h-100 w-100 border d-flex overflow-hidden align-items-center justify-content-center">
+      <p class="h2 font-weight-bold text-center" id="date">__.__.____</p>
+                </div>
+                <div class="h-100 w-100 border d-flex overflow-hidden align-items-center justify-content-center">
+      <p class="h2 font-weight-bold text-center" id="clock">--:--:--</p>
+                </div>
+    </div>
+  </div>
+
+    <!-- İÇERİK KISMI -->
+    <div class="row bg-info">
+        <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+            <p class="h1 text-center" id="sira1_1"></p>
+        </div>
+
+        <div class="col-sm-6 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h1 text-center" id="sira1_2"></p>
+       </div>
+
+         <div class="col-sm-4 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h3 text-center" id="sira1_3"></p>
+       </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+            <p class="h1 text-center" id="sira2_1"></p>
+        </div>
+
+        <div class="col-sm-6 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h1 text-center" id="sira2_2"></p>
+       </div>
+
+       <div class="col-sm-4 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h3 text-center" id="sira2_3"></p>
+       </div>
+
+    </div>
+
+    <div class="row bg-info">
+        <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+            <p class="h1 text-center" id="sira3_1"></p>
+        </div>
+
+        <div class="col-sm-6 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h1 text-center" id="sira3_2"></p>
+       </div>
+
+         <div class="col-sm-4 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h3 text-center" id="sira3_3"></p>
+       </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+            <p class="h1 text-center" id="sira4_1"></p>
+        </div>
+
+        <div class="col-sm-6 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h1 text-center" id="sira4_2"></p>
+       </div>
+
+         <div class="col-sm-4 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h3 text-center" id="sira4_3"></p>
+       </div>
+
+    </div>
+
+    <div class="row bg-info">
+        <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+            <p class="h1 text-center" id="sira5_1"></p>
+        </div>
+
+        <div class="col-sm-6 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h1 text-center" id="sira5_2"></p>
+       </div>
+
+         <div class="col-sm-4 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h3 text-center" id="sira5_3"></p>
+       </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 h-100 border overflow-hidden d-flex align-items-center justify-content-center">
+            <p class="h1 text-center" id="sira6_1"></p>
+        </div>
+
+        <div class="col-sm-6 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h1 text-center" id="sira6_2"></p>
+       </div>
+
+         <div class="col-sm-4 h-100 overflow-hidden d-flex align-items-center justify-content-center">
+      <p class="h3 text-center" id="sira6_3"></p>
+       </div>
+
+    </div>
+
+    %rows%
+
+
+</body>
+</html>
