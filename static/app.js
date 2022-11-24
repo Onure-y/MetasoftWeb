@@ -1,7 +1,6 @@
 socket = io();
 socket.connect();
 const audio = new Audio("/static/alert4.wav");
-let dataStartValue = 0;
 var flowControl = true;
 
 socket.on('connect', async function() {
@@ -18,6 +17,7 @@ socket.on('connect', async function() {
                         document.getElementById(key).innerHTML = data.ekran[i][key];
                         } catch (err) {}
                     }
+                    // Burda bulunan alan ekranlar arası gecıs suresini milisaniye cinsinden fonksiyonudur
                     await waitForAnimation(5000,800);
                 }
             } catch(e) {
@@ -46,30 +46,18 @@ socket.on('json', async function(msg) {
                }, 5000);
     }
 
-        var allPatients = 0;
-        for(let i=0; i<msg.ekran.length;i++) {
-            for(let key in msg.ekran[i]) {
-                if(key.includes("_2")) {
-                allPatients++;
-                }
-            }
-        }
-        document.getElementById("all-patients").innerHTML = allPatients;
+//        var allPatients = 0;
+//        for(let i=0; i<msg.ekran.length;i++) {
+//            for(let key in msg.ekran[i]) {
+//                if(key.includes("_2")) {
+//                allPatients++;
+//                }
+//            }
+//        }
+//        document.getElementById("all-patients").innerHTML = allPatients;
+          document.getElementById("description").innerHTML = msg.description;
 
 });
-
-         const sleep = (ms) => new Promise((resolve, reject) => setTimeout(resolve,ms));
-
-         async function waitForAnimation(estimatedTime,animationTime) {
-            await sleep(estimatedTime);
-            document.getElementById("page-content").classList.add("page-content-opacity-0");
-            document.getElementById("page-content").classList.remove("page-content-opacity-1");
-            await sleep(animationTime);
-            document.getElementById("page-content").classList.remove("page-content-opacity-0");
-            document.getElementById("page-content").classList.add("page-content-opacity-1");
-         }
-
-
 
 socket.on("disconnect", (reason) => {
     document.getElementById("reconnecting").classList.remove("d-none");
@@ -81,6 +69,16 @@ const myModalEl = document.getElementById("myModal")
 myModalEl.addEventListener("shown.bs.modal", function () {
 });
 
+ const sleep = (ms) => new Promise((resolve, reject) => setTimeout(resolve,ms));
+
+ async function waitForAnimation(estimatedTime,animationTime) {
+    await sleep(estimatedTime);
+    document.getElementById("page-content").classList.add("page-content-opacity-0");
+    document.getElementById("page-content").classList.remove("page-content-opacity-1");
+    await sleep(animationTime);
+    document.getElementById("page-content").classList.remove("page-content-opacity-0");
+    document.getElementById("page-content").classList.add("page-content-opacity-1");
+ }
 
 function dateandtime() {
     let today = new Date();

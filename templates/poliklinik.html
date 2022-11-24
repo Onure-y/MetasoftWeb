@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Poliklinik</title>
+    <script src="/static/jquery-3.6.0.min.js"></script>
+    <script src="/static/socket.io.min.js"></script>
+    <script src="/static/bootstrap-4.6.1/js/bootstrap.bundle.js"></script>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=daFkgrZ5"></script>
+    <script src="/static/Queue.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap-4.6.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="modal fade" id="myModal" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content modal-bg">
+                <img class="modal-gif" src="/static/modal-img.gif" alt="hospital-gif">
+                <div class="modal-body d-flex flex-column align-items-center justify-content-center rounded text-white">
+                    <p class="h1 font-weight-bold text-center fw-bolder" id="cagir"></p>
+                    <p class="h1 font-weight-bold text-center fw-bolder">Lütfen İçeri Giriniz</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <nav class="nav">
+            <img src="/static/logo-alt.png" alt="logo-2">
+            <p class="room-name" id="title">ENDODONTİ / RESTORATİF DİŞ TEADAVİSİ</p>
+            <div class="date-container">
+                <p class="date" id="date"></p>
+                <p class="time" id="time"></p>
+            </div>
+        </nav>
+        <div class="main-content">
+            <div class="rooms">
+                <div class="room-1 room">
+                    <p class="room-name">Poliklinik-1</p>
+                </div>
+                <div class="room-2 room">
+                    <p class="room-name">Poliklinik-2</p>
+                </div>
+                <div class="room-3 room">
+                    <p class="room-name">Poliklinik-3</p>
+                </div>
+                <div class="room-4 room">
+                    <p class="room-name">Poliklinik-4</p>
+                </div>
+            </div>
+            <div class="patients-wrapper">
+                <div class="patients-container">
+                    <div class="patient-row">
+                        <p id="patient-id-1">21</p>
+                        <p id="patient-name-1">Bedirhan Erdal</p>
+                        <p id="patient-doctor-1">Dr.Faruk Elmas</p>
+                    </div>
+                    <div class="patient-row">
+                        <p id="patient-id-2">21</p>
+                        <p id="patient-name-2">Bedirhan Erdal</p>
+                        <p id="patient-doctor-2">Dr.Faruk Elmas</p>
+                    </div>
+                    <div class="patient-row">
+                        <p id="patient-id-3">21</p>
+                        <p id="patient-name-3">Bedirhan Erdal</p>
+                        <p id="patient-doctor-3">Dr.Faruk Elmas</p>
+                    </div>
+                    <div class="patient-row">
+                        <p id="patient-id-4">21</p>
+                        <p id="patient-name-4">Bedirhan Erdal</p>
+                        <p id="patient-doctor-4">Dr.Faruk Elmas</p>
+                    </div>
+                    <div class="patient-row">
+                        <p id="patient-id-5">21</p>
+                        <p id="patient-name-5">Bedirhan Erdal</p>
+                        <p id="patient-doctor-5">Dr.Faruk Elmas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="background-symbols">
+            <li class="symbols-1"></li>
+            <li class="symbols-2"></li>
+            <li class="symbols-3"></li>
+            <li class="symbols-4"></li>
+            <li class="symbols-5"></li>
+            <li class="symbols-6"></li>
+            <li class="symbols-7"></li>
+            <li class="symbols-8"></li>
+            <li class="symbols-9"></li>
+            <li class="symbols-10"></li>
+            <li class="symbols-11"></li>
+            <li class="symbols-12"></li>
+            <li class="symbols-13"></li>
+        </ul>
+        <div class="lds-heart-container">
+            <div class="lds-heart"><div></div></div>
+        </div>
+    </div>
+</body>
+
+<script src="/static/main.js"></script>
+</html>
