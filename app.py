@@ -26,16 +26,17 @@ def ekranGoster(oda):
     if os.path.isfile('templates/' + oda + '.html'):
         return render_template(oda+".html")
     else:
-        return render_template("index.html")
+        return render_template("poliklinik.html")
 
 
 @app.route('/api', methods=["GET", "POST"])
 def api():
     response = ""
     try:
+        print('data came')
         data = request.json
         socketio.send(data, json=True, to=data['oda'])
-        lastData[data['oda']] = data['ekran']
+        lastData[data["oda"]] = data['ekran']
         response = "SUCCESS", 200
     except:
         response = "ERROR", 400

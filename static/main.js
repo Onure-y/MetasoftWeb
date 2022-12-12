@@ -7,8 +7,11 @@ const patientsContainer = document.querySelector(".patients-container");
 const mainContent = document.querySelector(".main-content");
 const ldsHeart = document.querySelector(".lds-heart-container");
 
+let isProgressing = false;
+
+window.patientsQueue = new Queue();
+
 // Sira nesnesini burada yaratiyorum
-let patientsQueue = new Queue();
 
 //responsiveVoice.speak("Onur Emre YILDIRIM", "Turkish Female");
 
@@ -43,7 +46,11 @@ socket.on('connect', async function() {
 socket.on('json', async function(msg) {
     window.data = msg;
     await init();
-    sendNextPatientScreen(msg);
+    patientsQueue.enqueue(msg.cagir);
+    console.log('data came');
+    if(!isProgressing) {
+        sendNextPatientScreen();
+    }
 })
 
 socket.on("disconnect", (reason) => {
@@ -71,24 +78,22 @@ function dateandtime() {
     document.getElementById("date").textContent = date;
 }
 
-function sendNextPatientScreen(msg) {
-    patientsQueue.enqueue(msg.cagir);
-    for(let i=0; i<patientsQueue.length;i++) {
-         if ( typeof patientsQueue.peek() !== "undefined")
-            {
-                audio.play();
-                $('#myModal').modal('show')
-                responsiveVoice.speak(`${patientsQueue.peek()} Lütfen içeri giriniz`, "Turkish Female",{volume: 5});
-                document.getElementById("cagir").innerHTML = patientsQueue.dequeue();
-                setTimeout(function()
-                    {
-                        $('#myModal').modal('hide')
-                    }, 5000);
-            }
+async function sendNextPatientScreen() {
+    console.log('started');
+    isProgressing = true;
+    console.log(patientsQueue.peek());
+    while(patientsQueue.length !== 0 && typeof patientsQueue.peek() !== "undefined") {
+        console.log('patients');
+        audio.play();
+        $('#myModal').modal('show')
+        //responsiveVoice.speak(`${patientsQueue.peek()} Lütfen içeri giriniz`, "Turkish Female",{volume: 5});
+        document.getElementById("cagir").innerHTML = patientsQueue.peek();
+        await sleep(4000);
+        $('#myModal').modal('hide');
+        patientsQueue.dequeue();
+        await sleep(1000);
+        console.log('ended');
     }
-
+    isProgressing = false;
 }
-
-// Sira Yapisini bir class olarak tanimliyorum ki ileride cagirilan hastalarin verilerine
-// Kolayikla erisebileyim
 setInterval(dateandtime, 1000);
