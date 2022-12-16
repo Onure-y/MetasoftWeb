@@ -43,6 +43,11 @@
     position: relative;
 }
 
+
+.room-inactive {
+    opacity : 0;
+}
+
 .room-1 {
     background-color = #fff;
 }
@@ -56,6 +61,7 @@
     background-color : #D6D6D6;
     border-radius : 4vh 4vh 0 0;
     transition : 1s all ease-in-out;
+    opacity : 1;
 }
 
 .room .room-name {
