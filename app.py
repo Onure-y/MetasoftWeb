@@ -5,6 +5,7 @@ from datetime import timedelta
 from markupsafe import escape
 import os.path
 
+
 class LastData:
     def __init__(self):
         self.roomsData = {}
@@ -40,10 +41,7 @@ app.config['SECRET_KEY'] = 'ba71047a828841cb81ac5e091c226512'
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=730)
 socketio = SocketIO(app, logger=True, engineio_logger=True)
-# lastData = {}
 lastData = LastData()
-
-
 
 
 @app.route('/')
