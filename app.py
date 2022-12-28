@@ -12,11 +12,11 @@ class LastData:
         self.roomsData = {}
 
     def pushRoomData(self, source, roomData):
-        lastData = {}
-        lastData['source'] = source
-        lastData['oda'] = roomData['oda']
-        lastData['ekran'] = roomData['ekran']
-        self.roomsData[roomData['oda']] = lastData
+        data = {}
+        data['source'] = source
+        data['oda'] = roomData['oda']
+        data['ekran'] = roomData['ekran']
+        self.roomsData[roomData['oda']] = data
         print(self.roomsData)
 
     def isDataExist(self, source):
@@ -33,7 +33,6 @@ class LastData:
                 return True
 
         return False
-
 
     def getLastData(self, source):
         allDataOfRoom = []

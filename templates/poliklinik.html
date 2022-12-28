@@ -7,7 +7,7 @@
     <script src="/static/jquery-3.6.0.min.js"></script>
     <script src="/static/socket.io.min.js"></script>
     <script src="/static/bootstrap-4.6.1/js/bootstrap.bundle.js"></script>
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=daFkgrZ5"></script>
+    <!--    <script src="https://code.responsivevoice.org/responsivevoice.js?key=daFkgrZ5"></script>-->
     <script src="/static/Queue.js"></script>
     <script src="/static/Rooms.js"></script>
     <link rel="stylesheet" href="/static/bootstrap-4.6.1/css/bootstrap.css">
@@ -16,95 +16,103 @@
 <body>
 
 <!--Hasta Cagirma Ekrani-->
-    <div class="modal fade" id="myModal" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content modal-bg">
-                <img class="modal-gif" src="/static/modal-img.gif" alt="hospital-gif">
-                <div class="modal-body d-flex flex-column align-items-center justify-content-center rounded text-white">
-                    <p class="h1 font-weight-bold text-center fw-bolder" id="cagir"></p>
-                    <p class="h1 font-weight-bold text-center fw-bolder">Lütfen İçeri Giriniz</p>
-                </div>
+<div class="modal fade" id="myModal" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content modal-bg py-2">
+            <p class="h1 font-weight-bold text-center fw-bolder text-white" id="room-name"></p>
+            <img class="modal-gif" src="/static/modal-img-alt.gif" alt="hospital-gif">
+            <div class="modal-body d-flex flex-column align-items-center justify-content-center rounded text-white">
+                <p class="h1 font-weight-bold text-center fw-bolder" id="cagir"></p>
+                <p class="h1 font-weight-bold text-center fw-bolder text-white">Lütfen İçeri Giriniz</p>
             </div>
         </div>
     </div>
+</div>
 
 <!--Ana ekranda gözükünen ana content-->
-    <div class="main-container">
-        <nav class="nav">
-            <img src="/static/logo-alt.png" alt="logo-2">
-            <p class="room-name" id="title">ENDODONTİ / RESTORATİF DİŞ TEADAVİSİ</p>
-            <div class="date-container">
-                <p class="date" id="date"></p>
-                <p class="time" id="time"></p>
+<div class="main-container">
+    <nav class="nav">
+        <img src="/static/logo-alt.png" alt="logo-2">
+        <p class="room-name" id="title">ENDODONTİ / RESTORATİF DİŞ TEADAVİSİ</p>
+        <div class="date-container">
+            <p class="date" id="date"></p>
+            <p class="time" id="time"></p>
+        </div>
+    </nav>
+    <div class="main-content">
+        <!--        Ekranda bulunan 4 oda-->
+        <div class="rooms">
+            <div class="room-1 query-room room">
+                <p class="room-name"></p>
             </div>
-        </nav>
-        <div class="main-content">
-<!--        Ekranda bulunan 4 oda-->
-            <div class="rooms">
-                <div class="room-1 query-room room">
-                    <p class="room-name"></p>
-                </div>
-                <div class="room-2 query-room room-inactive">
-                    <p class="room-name"></p>
-                </div>
-                <div class="room-3 query-room room-inactive">
-                    <p class="room-name"></p>
-                </div>
-                <div class="room-4 query-room room-inactive">
-                    <p class="room-name"></p>
-                </div>
+            <div class="room-2 query-room room-inactive">
+                <p class="room-name"></p>
             </div>
-            <div class="patients-wrapper">
-                <div class="patients-container">
-                    <div class="patient-row">
-                        <p id="patient-id-1"></p>
-                        <p id="patient-name-1"></p>
-                        <p id="patient-doctor-1"></p>
-                    </div>
-                    <div class="patient-row">
-                        <p id="patient-id-2"></p>
-                        <p id="patient-name-2"></p>
-                        <p id="patient-doctor-2"></p>
-                    </div>
-                    <div class="patient-row">
-                        <p id="patient-id-3"></p>
-                        <p id="patient-name-3"></p>
-                        <p id="patient-doctor-3"></p>
-                    </div>
-                    <div class="patient-row">
-                        <p id="patient-id-4"></p>
-                        <p id="patient-name-4"></p>
-                        <p id="patient-doctor-4"></p>
-                    </div>
-                    <div class="patient-row">
-                        <p id="patient-id-5"></p>
-                        <p id="patient-name-5"></p>
-                        <p id="patient-doctor-5"></p>
-                    </div>
-                </div>
+            <div class="room-3 query-room room-inactive">
+                <p class="room-name"></p>
+            </div>
+            <div class="room-4 query-room room-inactive">
+                <p class="room-name"></p>
             </div>
         </div>
-<!--    Background da bulunan animasyon nesneleri    -->
-        <ul class="background-symbols">
-            <li class="symbols-1"></li>
-            <li class="symbols-2"></li>
-            <li class="symbols-3"></li>
-            <li class="symbols-4"></li>
-            <li class="symbols-5"></li>
-            <li class="symbols-6"></li>
-            <li class="symbols-7"></li>
-            <li class="symbols-8"></li>
-            <li class="symbols-9"></li>
-            <li class="symbols-10"></li>
-            <li class="symbols-11"></li>
-            <li class="symbols-12"></li>
-            <li class="symbols-13"></li>
-        </ul>
-<!--    Loading sirasinda ekranin ortasinda bulunan kalp nesnesi -->
-        <div class="lds-heart-container">
-            <div class="lds-heart"><div></div></div>
+        <div class="patients-wrapper">
+            <div class="patients-nav">
+                <p class="patients-nav-que">SIRA</p>
+                <p class="patients-nav-patient-name">HASTA İSMİ</p>
+                <p class="patients-nav-doctor-name">HEKİM ADI</p>
+            </div>
+            <div class="patients-container">
+                <div class="patient-row">
+                    <p id="patient-id-1"></p>
+                    <p id="patient-name-1"></p>
+                    <p id="patient-doctor-1"></p>
+                </div>
+                <div class="patient-row">
+                    <p id="patient-id-2"></p>
+                    <p id="patient-name-2"></p>
+                    <p id="patient-doctor-2"></p>
+                </div>
+                <div class="patient-row">
+                    <p id="patient-id-3"></p>
+                    <p id="patient-name-3"></p>
+                    <p id="patient-doctor-3"></p>
+                </div>
+                <div class="patient-row">
+                    <p id="patient-id-4"></p>
+                    <p id="patient-name-4"></p>
+                    <p id="patient-doctor-4"></p>
+                </div>
+                <div class="patient-row">
+                    <p id="patient-id-5"></p>
+                    <p id="patient-name-5"></p>
+                    <p id="patient-doctor-5"></p>
+                </div>
+            </div>
         </div>
     </div>
+    <!--    Background da bulunan animasyon nesneleri    -->
+    <ul class="background-symbols">
+        <li class="symbols-1"></li>
+        <li class="symbols-2"></li>
+        <li class="symbols-3"></li>
+        <li class="symbols-4"></li>
+        <li class="symbols-5"></li>
+        <li class="symbols-6"></li>
+        <li class="symbols-7"></li>
+        <li class="symbols-8"></li>
+        <li class="symbols-9"></li>
+        <li class="symbols-10"></li>
+        <li class="symbols-11"></li>
+        <li class="symbols-12"></li>
+        <li class="symbols-13"></li>
+    </ul>
+    <!--    Loading sirasinda ekranin ortasinda bulunan kalp nesnesi -->
+    <div class="lds-heart-container">
+        <div class="lds-heart">
+            <div></div>
+        </div>
+    </div>
+</div>
 </body>
 
 <script src="/static/main.js"></script>

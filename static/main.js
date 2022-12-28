@@ -6,6 +6,7 @@ const roomsContainer = document.querySelectorAll(".query-room");
 const patientsContainer = document.querySelector(".patients-container");
 const mainContent = document.querySelector(".main-content");
 const ldsHeart = document.querySelector(".lds-heart-container");
+const patientsNav = document.querySelector(".patients-nav");
 
 // Hasta çağırma ekranının aktif olup olmadığını kontrol ettiğim değer
 let isProgressing = false;
@@ -17,6 +18,8 @@ window.patientsQueue = new Queue();
 // Client tarafına akan oda verileri 1 den fazla olmasından dolayı ekranda bunları işleyebilmem
 // icing global bir veri oluşturuyorum
 window.rooms = {};
+
+
 
 //  Client ile Server arasında bağlantı sağlandığında çalışan fonksiyon
 socket.on('connect', async function() {
@@ -31,10 +34,13 @@ socket.on('connect', async function() {
             for(let roomData in rooms) {
                 roomsContainer[roomsContainerIterator].style.backgroundColor = '#fff';
                 patientsContainer.style.opacity = 1;
+                patientsNav.style.opacity = 1;
                 for(let key in rooms[roomData]) {
                     try {
 //                      Oda verilerinin içinde gelen aynı id ismine sahip verilerin içine yazıyorum
-                        document.getElementById(key).innerHTML = rooms[roomData][key];
+                        if(document.getElementById(key)) {
+                            document.getElementById(key).innerHTML = rooms[roomData][key];
+                        }
                     }catch(err) {
                     console.log(err)
                     }
@@ -46,6 +52,7 @@ socket.on('connect', async function() {
 //                  Oda animasyonu aslinda teknik olarak verilerin opacity sini 0 yapip loop basa dondugunde verileri
 //                  tekrar gerekli HTML lere yazdikdan sonra opacity sini 1 yapmak.
                     patientsContainer.style.opacity = 0;
+                    patientsNav.style.opacity = 0;
                 }
 //              Buradaki bekleme süresi ise 2 sayfa arasındaki geçişte veriler hemen ekrana gelmesin kısa bir fade-out
 //              animasyonu ile ekrana gelmesi için yaptığım bir bekleme süresi
@@ -77,7 +84,7 @@ socket.on('json', async function(msg) {
 //  buradaki veri undefined olucaktur bu nedenle burda sorgu yapıyorum
     if(typeof msg.cagir !== "undefined") {
 //      Buarada önceden oluşturduğum sıra nesnesine çağırılacak hastanın verisini ekliyorum
-        patientsQueue.enqueue(msg.cagir);
+        patientsQueue.enqueue({"patient" :msg.cagir , 'roomName' : msg['oda']});
     }
 //  Bu fonksiyon her veri geldiğinde çalışmasından dolayı her çağırıldığında hastayı üst üste çağırmaktan kaçınmak için
 //  eğer işlem devam ediyorsa sadece yukarıda sıradaki hastayı ekliyorum fonksiyon çalıştığı için sorun çıkmıyor
@@ -124,15 +131,16 @@ function firstLetterToUpperCase(str) {
 async function sendNextPatientScreen() {
     isProgressing = true;
 //  Hastaları sıra nesnesiyle çağırdığım için aslında basitçe sıra nesnesi bitene kadar ekrana animasyonla hastaları çağırıyorum
-    while(patientsQueue.length !== 0 && typeof patientsQueue.peek() !== "undefined") {
+    while(patientsQueue.length !== 0 && typeof patientsQueue.peek()['patient'] !== "undefined") {
         audio.play();
         $('#myModal').modal('show')
 //      Ekrandaki hastanın ismiyle çağırım yaparken kullandığım 3.parti bir yazılım
 //      Text to Speech (Yazıdan ses çevirme işlemi) yaparak hastanın ismini okumasını sağlıyor
 //      !**** Malesef sadece internet bağlantısı olduğunda çalışıyor ****!
 //        responsiveVoice.speak(`${patientsQueue.peek()} Lütfen içeri giriniz`, "Turkish Female",{volume: 5});
-        document.getElementById("cagir").innerHTML = patientsQueue.peek();
-        await sleep(4000);
+        document.getElementById("cagir").innerHTML = patientsQueue.peek()["patient"];
+        document.getElementById("room-name").innerHTML = firstLetterToUpperCase(patientsQueue.peek()["roomName"]);
+        await sleep(5000);
         $('#myModal').modal('hide');
         patientsQueue.dequeue();
         await sleep(1000);

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap');
 
 * {
     box-sizing: border-box;
@@ -32,7 +32,7 @@
 }
 
 .main-content {
-    transition : 0.5s all ease-in;
+    transition : 1s all ease-in;
     display: none;
 }
 
@@ -41,6 +41,7 @@
     display : flex;
     width : 80%;
     position: relative;
+    font-size : 3.5vh;
 }
 
 
@@ -57,7 +58,7 @@
     justify-content : center;
     align-items : center;
     width : 25%;
-    height : 15vh;
+    height : 12vh;
     background-color : #D6D6D6;
     border-radius : 4vh 4vh 0 0;
     transition : 1s all ease-in-out;
@@ -69,21 +70,42 @@
     text-align : center;
     position : relative;
     z-index : 3;
-    font-size : 3vh;
+    font-size : 4vh;
 }
+
+.patients-nav {
+    margin : 0 auto;
+    display: flex;
+    justify-content : space-between;
+    width : 85%;
+    align-items : center;
+    padding : 2vh 5vh;
+    border-bottom : 1px solid #000;
+    transition : 1s all ease-in-out;
+}
+
+.patients-nav-patient-name {
+    padding-right : 10vh;
+}
+
+.patients-nav p {
+    font-size : 4vh;
+    font-weight: 500;
+    margin : 0;
+}
+
+
 
 .patients-container {
     margin : 0 auto;
     height : 60vh;
     width : 85%;
-    background-color : #fff;
-    border-radius : 0 0 4vh 4vh;
     transition : 1s all ease-in-out;
 }
 
 .patients-wrapper {
     margin : 0 auto;
-    height : 60vh;
+    height : 68vh;
     width : 80%;
     background-color : #fff;
     border-radius : 0 0 4vh 4vh;
@@ -100,6 +122,7 @@
     justify-content : space-between;
     align-items : center;
     padding : 0 5vh;
+    animation-iteration-count: 1
 }
 
 .patient-row p {
@@ -208,14 +231,14 @@
     justify-content: space-between;
     align-items: center;
     width: 90vw;
-    height : 20vh;
+    height : 15vh;
     margin : 0 auto;
     padding : 10px;
 }
 
 .nav img {
-    height : 15vh;
-    width : 15vh;
+    height : 12vh;
+    width : 12vh;
 }
 
 .nav .room-name {
@@ -371,8 +394,21 @@
     height : 300px;
     width : 300px;
     margin : 0 auto;
+    padding-right : 5vh;
 }
 
 .modal-bg {
     background-color : #656BE7;
+}
+
+/* Patients info Animations */
+
+@keyframes patient1Anim {
+    0% {
+        transform : translateY(-30px);
+    }
+
+    100% {
+        transform ; translateY(0px);
+    }
 }
