@@ -5,13 +5,22 @@ from markupsafe import escape
 import os.path
 
 
-# Verileri local de tutabilmek icin olusturdugum class
 
 class LastData:
+    """ Runtime anında ekrnadaki veriler bir javascript dosyasıyla tutulduğundan
+     Herhangi bir şekilde sayfanın refresh olmasıyla son verileri kaybedebiliriz
+     O nedenle verileri runtime zamanında tutabilmek için app.py da bir LastData Classı oluşturdum
+     Bu classtan yaratılacak nesnenin görevi her veri geldiğinde son verileri güncellemesi
+     ve olası bir veri kaybında verilerin ekranda o session ismiyle yeniden gösterilmesi
+    """
     def __init__(self):
+
         self.roomsData = {}
 
     def pushRoomData(self, source, roomData):
+        """
+            Ekrana gelen son verileri saklamak icin olusturulmus metot
+        """
         data = {}
         data['source'] = source
         data['oda'] = roomData['oda']
@@ -27,6 +36,28 @@ class LastData:
                 return False
 
     def checkIfSourceRoomIsExist(self, data, source):
+
+        """
+            Burada Eklenmek istenen odanin baska bir url kaynaginda var olup olmadigina bakiyoruz
+            Bakmamizin sebebi ayni oda ismi farklı url odalarında kullanılmasını istememizdir
+
+            localhost:5000/ekran/{oda}
+
+            poliklinik-1 = {
+                source = {oda}
+                ....
+            }
+
+            poliklinik-2 = {
+                source = {oda}
+                ....
+            }
+
+            Veriler yukaridaki gibi olmasindan dolayi başka bir source(url de bulunan oda ismi)
+            farklı olsada bir python dict objesinde aynı isimle 2 veri bulunamacağından eklemek yerine
+            veriyi override edebilir bizde bundan kaçınmak için server tarafında eğer böyle bir durum oluşur
+            ise gerektiğinde error respond u gönderebiliriz
+        """
         for key in self.roomsData:
             if self.roomsData[key]['oda'] == data['oda'] and (not self.roomsData[key]['source'] == source):
                 print('founded')
@@ -35,6 +66,11 @@ class LastData:
         return False
 
     def getLastData(self, source):
+        """
+            Client tarafinda server ile baglanti kuruldugunda var olan oda verilerini getirir
+            Bu sayede bir sekilde sayfanin yenilenmesiyle birlikte client tarafinda kaybolan veriler
+            bu metot sayesinde kullani tarafina yollayabiliriz
+        """
         allDataOfRoom = []
         for key in self.roomsData:
             data = {}
@@ -61,7 +97,7 @@ lastData = LastData()
 
 @app.route('/')
 def home():
-    return "KAPIUSTU WEB"
+    return render_template("home.html")
 
 
 @app.route('/ekran/<oda>')
